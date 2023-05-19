@@ -52,9 +52,7 @@ public class LectureController {
 		LectureDto lectureDTO = lectureService.getPost(no);
 
 		model.addAttribute("lectureDto", lectureDTO);
-
 		return "lecture/detail.html";
-
 	}
 
 	@GetMapping("/post/edit/{no}")
