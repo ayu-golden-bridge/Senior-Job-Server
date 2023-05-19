@@ -16,12 +16,24 @@ public class LectureController {
 
 	/* 게시글 목록 */
 	@GetMapping("/")
-	public String list(Model model) {
+	public String list(Model model, @RequestParam(value="page", defaultValue = "1") Integer pageNum) {
 		List<LectureDto> lectureList = lectureService.getLecturelist();
+		Integer[] pageList = LectureService.getPageList(pageNum);
 
 		model.addAttribute("lectureList", lectureList);
+		model.addAttribute("pageList", pageList);
 		return "lecture/list.html";
 	}
+	/* 게시글 검색*/
+	@GetMapping("/board/search")
+	public String search(@RequestParam(value="title") String title, Model model) {
+		List<LectureDto> lectureDtoList = lectureService.searchPosts(title);
+
+		model.addAttribute("lectureList", lectureDtoList);
+
+		return "lecture/list.html";
+	}
+
 
 	@GetMapping("/post")
 	public String write() {
@@ -40,8 +52,9 @@ public class LectureController {
 		LectureDto lectureDTO = lectureService.getPost(no);
 
 		model.addAttribute("lectureDto", lectureDTO);
-		// return "lecture/detail.html";
-		return lectureDTO.toString();
+
+		return "lecture/detail.html";
+
 	}
 
 	@GetMapping("/post/edit/{no}")
@@ -66,6 +79,8 @@ public class LectureController {
 
 		return "redirect:/";
 	}
+
+
 
 
 }

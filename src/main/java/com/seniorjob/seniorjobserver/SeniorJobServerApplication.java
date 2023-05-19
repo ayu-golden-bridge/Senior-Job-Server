@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
 @SpringBootApplication
-public class SeniorJopServerApplication {
+public class SeniorJobServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SeniorJopServerApplication.class, args);
+        SpringApplication.run(SeniorJobServerApplication.class, args);
     }
 }
