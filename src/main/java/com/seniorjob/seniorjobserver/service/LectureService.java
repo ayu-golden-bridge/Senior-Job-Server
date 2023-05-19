@@ -24,11 +24,22 @@ public class LectureService {
 
         for ( LectureEntity lectureEntity : lectureEntities) {
             LectureDto lectureDTO = LectureDto.builder()
-                    .id(lectureEntity.getId())
+                    .lecture_id(lectureEntity.getLecture_id())
+                    .create_uid(lectureEntity.getCreate_uid())
+                    .participant_uid(lectureEntity.getParticipant_uid())
+                    .participant_limit(lectureEntity.getParticipant_limit())
+                    .category(lectureEntity.getCategory())
+                    .bank_name(lectureEntity.getBank_name())
+                    .bank_number(lectureEntity.getBank_number())
                     .title(lectureEntity.getTitle())
                     .content(lectureEntity.getContent())
-                    .writer(lectureEntity.getWriter())
-                    .createdDate(lectureEntity.getCreatedDate())
+                    .start_date(lectureEntity.getStart_date())
+                    .end_date(lectureEntity.getEnd_date())
+                    .price(lectureEntity.getPrice())
+                    .region(lectureEntity.getRegion())
+                    .imgKey(lectureEntity.getImg_key())
+                    .create_date(lectureEntity.getCreate_date())
+                    .update_date(lectureEntity.getUpdate_date())
                     .build();
 
             lectureDtoList.add(lectureDTO);
@@ -44,18 +55,29 @@ public class LectureService {
         LectureEntity lectureEntity = lectureEntityWrapper.get();
 
         LectureDto lectureDTO = LectureDto.builder()
-                .id(lectureEntity.getId())
+                .lecture_id(lectureEntity.getLecture_id())
+                .create_uid(lectureEntity.getCreate_uid())
+                .participant_uid(lectureEntity.getParticipant_uid())
+                .participant_limit(lectureEntity.getParticipant_limit())
+                .category(lectureEntity.getCategory())
+                .bank_name(lectureEntity.getBank_name())
+                .bank_number(lectureEntity.getBank_number())
                 .title(lectureEntity.getTitle())
                 .content(lectureEntity.getContent())
-                .writer(lectureEntity.getWriter())
-                .createdDate(lectureEntity.getCreatedDate())
+                .start_date(lectureEntity.getStart_date())
+                .end_date(lectureEntity.getEnd_date())
+                .price(lectureEntity.getPrice())
+                .region(lectureEntity.getRegion())
+                .imgKey(lectureEntity.getImg_key())
+                .update_date(lectureEntity.getUpdate_date())
+                .create_date(lectureEntity.getCreate_date())
                 .build();
 
         return lectureDTO;
     }
     @Transactional
-    public Long savePost(LectureDto lectureDto) {
-        return lectureRepository.save(lectureDto.toEntity()).getId();
+    public Integer savePost(LectureDto lectureDto) {
+        return lectureRepository.save(lectureDto.toEntity()).getLecture_id();
     }
 
     @Transactional
