@@ -29,13 +29,13 @@ public class LectureDto {
     private String region;
     private String image_url;
 
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
     public LectureEntity toEntity() {
         LectureEntity lectureEntity = LectureEntity.builder()
                 .lecture_id(lecture_id)
                 .author(author)
-                .max_participants(max_participants)
+                .maxParticipants(max_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)
@@ -47,7 +47,7 @@ public class LectureDto {
                 .end_date(end_date)
                 .region(region)
                 .image_url(image_url)
-                .created_date(created_date)
+                .createdDate(createdDate)
                 .build();
         return lectureEntity;
     }
@@ -56,7 +56,7 @@ public class LectureDto {
     public LectureDto(Long lecture_id, String author, Integer max_participants, String category,
                       String bank_name, String account_name, String account_number, Integer price, String title, String content,
                       LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
-                      LocalDateTime created_date) {
+                      LocalDateTime createdDate) {
         this.lecture_id = lecture_id;
         this.author = author;
         this.max_participants = max_participants;
@@ -71,6 +71,6 @@ public class LectureDto {
         this.end_date = end_date;
         this.region = region;
         this.image_url = image_url;
-        this.created_date = created_date;
+        this.createdDate = createdDate;
     }
 }

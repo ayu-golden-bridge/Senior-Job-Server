@@ -2,6 +2,7 @@ package com.seniorjob.seniorjobserver.domain.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class LectureEntity extends TimeEntity {
     private String author;
 
     @Column(name = "max_participants", nullable = false)
-    private Integer max_participants;
+    private Integer maxParticipants;
 
     @Column(name = "category")
     private String category;
@@ -59,19 +60,19 @@ public class LectureEntity extends TimeEntity {
 
     @Column(name = "created_date", columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     @CreatedDate
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
 
 
 
     @Builder
-    public LectureEntity(Long lecture_id, String author, Integer max_participants, String category,
+    public LectureEntity(Long lecture_id, String author, Integer maxParticipants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
                          LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
-                         LocalDateTime created_date) {
+                         LocalDateTime createdDate) {
         this.lecture_id = lecture_id;
         this.author = author;
-        this.max_participants = max_participants;
+        this.maxParticipants = maxParticipants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
@@ -83,6 +84,6 @@ public class LectureEntity extends TimeEntity {
         this.end_date = end_date;
         this.region = region;
         this.image_url = image_url;
-        this.created_date = created_date;
+        this.createdDate = createdDate;
     }
 }
