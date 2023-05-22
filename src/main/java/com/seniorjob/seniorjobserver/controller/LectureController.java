@@ -123,37 +123,35 @@ public class LectureController {
 //	}
 
 
-	@GetMapping("/post/{no}")
-	public String detail(@PathVariable("no") Long no, Model model) {
-		LectureDto lectureDTO = lectureService.getPost(no);
-
-		model.addAttribute("lectureDto", lectureDTO);
-		// return "lecture/detail.html";
-		return "lecture/detail.html";
-	}
-
-	@GetMapping("/post/edit/{no}")
-	public String edit(@PathVariable("no") Long no, Model model) {
-		LectureDto lectureDTO = lectureService.getPost(no);
-
-		model.addAttribute("lectureDto", lectureDTO);
-		return "lecture/update.html";
-	}
-
-
-	@PutMapping("/post/edit/{no}")
-	public String update(LectureDto lectureDTO) {
-		lectureService.savePost(lectureDTO);
-
-		return "redirect:/";
-	}
-
-	@DeleteMapping("/post/{no}")
-	public String delete(@PathVariable("no") Long no) {
-		lectureService.deletePost(no);
-
-		return "redirect:/";
-	}
-
-
+//	@GetMapping("/post/{no}")
+//	public String detail(@PathVariable("no") Long no, Model model) {
+//		LectureDto lectureDTO = lectureService.getPost(no);
+//
+//		model.addAttribute("lectureDto", lectureDTO);
+//		// return "lecture/detail.html";
+//		return "lecture/detail.html";
+//	}
+//
+//	@GetMapping("/post/edit/{no}")
+//	public String edit(@PathVariable("no") Long no, Model model) {
+//		LectureDto lectureDTO = lectureService.getPost(no);
+//
+//		model.addAttribute("lectureDto", lectureDTO);
+//		return "lecture/update.html";
+//	}
+//
+//
+//	@PutMapping("/post/edit/{no}")
+//	public String update(LectureDto lectureDTO) {
+//		lectureService.savePost(lectureDTO);
+//
+//		return "redirect:/";
+//	}
+//
+//	@DeleteMapping("/post/{no}")
+//	public String delete(@PathVariable("no") Long no) {
+//		lectureService.deletePost(no);
+//
+//		return "redirect:/";
+//	}
 }
