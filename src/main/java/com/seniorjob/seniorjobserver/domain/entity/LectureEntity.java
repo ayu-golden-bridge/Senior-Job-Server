@@ -1,30 +1,28 @@
 package com.seniorjob.seniorjobserver.domain.entity;
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
-@Table(name = "lecture")
+@Table(name = "lecture1")
 public class LectureEntity extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    @Column(name = "lecture_id")
-    private Integer lecture_id;
+    //@Column(name = "lecture_id")
+    private Long lecture_id;
 
-    @Column(name = "create_uid")
-    private Integer create_uid;
+    @Column(name = "author", nullable = false)
+    private String author;
 
-    @Column(name = "participant_uid", columnDefinition = "TEXT")
-    private String participant_uid;
-
-    @Column(name = "participant_limit")
-    private Integer participant_limit;
+    @Column(name = "max_participants", nullable = false)
+    private Integer max_participants;
 
     @Column(name = "category")
     private String category;
@@ -32,57 +30,59 @@ public class LectureEntity extends TimeEntity {
     @Column(name = "bank_name")
     private String bank_name;
 
-    @Column(name = "bank_number", columnDefinition = "MEDIUMTEXT")
-    private String bank_number;
+    @Column(name = "account_name")
+    private String account_name;
 
-    @Column(length = 100, nullable = false)
-    private String title;
-
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String content;
-
-
-    @Column(name = "start_date")
-    private Date start_date;
-
-    @Column(name = "end_date")
-    private Date end_date;
+    @Column(name = "account_number")
+    private String account_number;
 
     @Column(name = "price")
     private Integer price;
 
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "content", columnDefinition = "TEXT")
+    private String content;
+
+    @Column(name = "start_date", columnDefinition = "datetime")
+    private LocalDateTime start_date;
+
+    @Column(name = "end_date", columnDefinition = "datetime")
+    private LocalDateTime end_date;
+
     @Column(name = "region")
     private String region;
 
-    @Column(name = "img_key", columnDefinition = "TEXT")
-    private String img_key;
+    @Column(name = "image_url")
+    private String image_url;
 
-    @Column(nullable = false)
-    private LocalDateTime update_date;
+    @Column(name = "created_date", columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
+    @CreatedDate
+    private LocalDateTime createdDate;
 
-    @Column(nullable = false)
-    private LocalDateTime create_date;
+
+
 
     @Builder
-    public LectureEntity(Integer lecture_id, Integer create_uid, String participant_uid, Integer participant_limit, String category,
-                         String bank_name, String bank_number, String title, String content, Date start_date, Date end_date,
-                         Integer price, String region, String img_key, LocalDateTime update_date,
-                         LocalDateTime create_date) {
+    public LectureEntity(Long lecture_id, String author, Integer max_participants, String category,
+                         String bank_name, String account_name, String account_number, Integer price, String title, String content,
+                         LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
+                         LocalDateTime createdDate) {
         this.lecture_id = lecture_id;
-        this.create_uid = create_uid;
-        this.participant_uid = participant_uid;
-        this.participant_limit = participant_limit;
+        this.author = author;
+        this.max_participants = max_participants;
         this.category = category;
         this.bank_name = bank_name;
-        this.bank_number = bank_number;
+        this.account_name = account_name;
+        this.account_number = account_number;
+        this.price = price;
         this.title = title;
         this.content = content;
         this.start_date = start_date;
         this.end_date = end_date;
-        this.price = price;
         this.region = region;
-        this.img_key = img_key;
-        this.update_date = update_date;
-        this.create_date = create_date;
+        this.image_url = image_url;
+        this.createdDate = createdDate;
     }
 }

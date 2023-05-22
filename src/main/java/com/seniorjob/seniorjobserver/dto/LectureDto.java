@@ -2,7 +2,8 @@ package com.seniorjob.seniorjobserver.dto;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import lombok.*;
-import java.util.Date;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.time.LocalDateTime;
 
 @Getter
@@ -11,65 +12,65 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class LectureDto {
 
-    private Integer lecture_id;
-    private Integer create_uid;
-    private String participant_uid;
-    private Integer participant_limit;
+    private Long lecture_id;
+    private String author;
+    private Integer max_participants;
     private String category;
     private String bank_name;
-    private String bank_number;
+    private String account_name;
+    private String account_number;
+    private Integer price;
     private String title;
     private String content;
-    private Date start_date;
-    private Date end_date;
-    private Integer price;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime start_date;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private LocalDateTime end_date;
     private String region;
-    private String img_key;
+    private String image_url;
 
-    private LocalDateTime create_date;
-    private LocalDateTime update_date;
+    private LocalDateTime createdDate;
 
     public LectureEntity toEntity() {
         LectureEntity lectureEntity = LectureEntity.builder()
                 .lecture_id(lecture_id)
-                .create_uid(create_uid)
-                .participant_uid(participant_uid)
-                .participant_limit(participant_limit)
+                .author(author)
+                .max_participants(max_participants)
                 .category(category)
                 .bank_name(bank_name)
-                .bank_number(bank_number)
+                .account_name(account_name)
+                .account_number(account_number)
+                .price(price)
                 .title(title)
                 .content(content)
                 .start_date(start_date)
                 .end_date(end_date)
-                .price(price)
                 .region(region)
-                .img_key(img_key)
-                .create_date(create_date)
-                .update_date(update_date)
+                .image_url(image_url)
+                .createdDate(createdDate)
                 .build();
         return lectureEntity;
     }
 
     @Builder
-    public LectureDto(Integer lecture_id, Integer create_uid, String participant_uid, Integer participant_limit, String category,
-                      String bank_name, String bank_number, String title, String content, Date start_date, Date end_date,
-                      Integer price, String region, String imgKey, LocalDateTime create_date, LocalDateTime update_date) {
+    public LectureDto(Long lecture_id, String author, Integer max_participants, String category,
+                      String bank_name, String account_name, String account_number, Integer price, String title, String content,
+                      LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
+                      LocalDateTime createdDate) {
         this.lecture_id = lecture_id;
-        this.create_uid = create_uid;
-        this.participant_uid = participant_uid;
-        this.participant_limit = participant_limit;
+        this.author = author;
+        this.max_participants = max_participants;
         this.category = category;
         this.bank_name = bank_name;
-        this.bank_number = bank_number;
+        this.account_name = account_name;
+        this.account_number = account_number;
+        this.price = price;
         this.title = title;
         this.content = content;
         this.start_date = start_date;
         this.end_date = end_date;
-        this.price = price;
         this.region = region;
-        this.img_key = img_key;
-        this.create_date = create_date;
-        this.update_date = update_date;
+        this.image_url = image_url;
+        this.createdDate = createdDate;
     }
 }
