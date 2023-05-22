@@ -59,7 +59,7 @@ public class LectureEntity extends TimeEntity {
 
     @Column(name = "created_date", columnDefinition = "datetime DEFAULT CURRENT_TIMESTAMP", nullable = false)
     @CreatedDate
-    private LocalDateTime created_date;
+    private LocalDateTime createdDate;
 
 
 
@@ -68,7 +68,7 @@ public class LectureEntity extends TimeEntity {
     public LectureEntity(Long lecture_id, String author, Integer max_participants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
                          LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
-                         LocalDateTime created_date) {
+                         LocalDateTime createdDate) {
         this.lecture_id = lecture_id;
         this.author = author;
         this.max_participants = max_participants;
@@ -83,6 +83,6 @@ public class LectureEntity extends TimeEntity {
         this.end_date = end_date;
         this.region = region;
         this.image_url = image_url;
-        this.created_date = created_date;
+        this.createdDate = createdDate;
     }
 }

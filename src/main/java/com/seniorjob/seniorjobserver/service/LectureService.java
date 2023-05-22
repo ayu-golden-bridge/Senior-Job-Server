@@ -77,15 +77,7 @@ public class LectureService {
     }
 
    // 강좌정렬
-
-    // 가격(최저, 최고) 강좌 정렬
-    public List<LectureDto> getLecturesByPriceRange(boolean isLowToHigh) {
-        Sort.Direction direction = isLowToHigh ? Sort.Direction.ASC : Sort.Direction.DESC;
-        List<LectureEntity> lectureEntities = lectureRepository.findAll(Sort.by(direction, "price"));
-        return lectureEntities.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
-    }
+  
 
     private LectureDto convertToDto(LectureEntity lectureEntity) {
         return LectureDto.builder()
@@ -103,7 +95,7 @@ public class LectureService {
                 .end_date(lectureEntity.getEnd_date())
                 .region(lectureEntity.getRegion())
                 .image_url(lectureEntity.getImage_url())
-                .created_date(lectureEntity.getCreated_date())
+                .createdDate(lectureEntity.getCreatedDate())
                 .build();
     }
 
@@ -158,7 +150,7 @@ public class LectureService {
                 .end_date(lectureEntity.getEnd_date())
                 .region(lectureEntity.getRegion())
                 .image_url(lectureEntity.getImage_url())
-                .created_date(lectureEntity.getCreated_date())
+                .createdDate(lectureEntity.getCreatedDate())
                 .build();
 
         return lectureDTO;
@@ -168,8 +160,8 @@ public class LectureService {
         return lectureRepository.save(lectureDto.toEntity()).getLecture_id();
     }
 
-    @Transactional
-    public void deletePost(Long id) {
-        lectureRepository.deleteById(id);
-    }
+//    @Transactional
+//    public void deletePost(Long id) {
+//        lectureRepository.deleteById(id);
+//    }
 }

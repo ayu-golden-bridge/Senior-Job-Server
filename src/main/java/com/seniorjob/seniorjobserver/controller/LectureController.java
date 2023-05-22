@@ -65,13 +65,9 @@ public class LectureController {
 	}
 
 	// 정렬 api
-	// GET /api/lectures/sort/price-range?lowToHigh=true / false
-	// 강좌 가격별 api true / false
-	@GetMapping("/sort/price-range")
-	public ResponseEntity<List<LectureDto>> getLecturesByPriceRange(@RequestParam("lowToHigh") boolean isLowToHigh) {
-		List<LectureDto> lecturesByPriceRange = lectureService.getLecturesByPriceRange(isLowToHigh);
-		return ResponseEntity.ok(lecturesByPriceRange);
-	}
+
+	
+	// 오래된글정렬
 
 
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
@@ -93,7 +89,7 @@ public class LectureController {
 				.end_date(lectureEntity.getEnd_date())
 				.region(lectureEntity.getRegion())
 				.image_url(lectureEntity.getImage_url())
-				.created_date(lectureEntity.getCreated_date())
+				.createdDate(lectureEntity.getCreatedDate())
 				.build();
 	}
 
@@ -139,19 +135,21 @@ public class LectureController {
 //		model.addAttribute("lectureDto", lectureDTO);
 //		return "lecture/update.html";
 //	}
-//
-//
+
+
 //	@PutMapping("/post/edit/{no}")
 //	public String update(LectureDto lectureDTO) {
 //		lectureService.savePost(lectureDTO);
 //
 //		return "redirect:/";
 //	}
-//
+
 //	@DeleteMapping("/post/{no}")
 //	public String delete(@PathVariable("no") Long no) {
 //		lectureService.deletePost(no);
 //
 //		return "redirect:/";
 //	}
+
+
 }
