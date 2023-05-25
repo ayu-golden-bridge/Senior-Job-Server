@@ -65,10 +65,35 @@ public class LectureController {
 	}
 
 	// 정렬 api
+	// 최신글정렬 = true, 오래된글정렬 = false
+	// GET /api/lectures/sorted/created-date?descending=true (DESC 내림차순 : 최신순)
+	// GET /api/lectures/sorted/created-date?descending=true (ASC 오름차순 : 오래된적은순)
+	@GetMapping("/sorted/created-date")
+	public ResponseEntity<List<LectureDto>> getAllLecturesSortedByCreatedDate(
+			@RequestParam(value = "descending", defaultValue = "true") boolean descending) {
+		List<LectureDto> lectureList = lectureService.getAllLecturesSortedByCreatedDate(descending);
+		return ResponseEntity.ok(lectureList);
+	}
 
-	
-	// 오래된글정렬
+	// 인기순 : max_participant가많은순 -> 강좌 참여하기를 만들때 실제참여자가 많은순으로 변경할것임
+	// GET /api/lectures/sorted/popularity?descending=true (DESC 내림차순 : 참여제한이 많은순)
+	// GET /api/lectures/sorted/popularity?descending=false (ASC 오름차순 : 참여제한이 적은순)
+	@GetMapping("/sorted/popularity")
+	public ResponseEntity<List<LectureDto>> getAllLecturesSortByPopularity(
+			@RequestParam(value = "descending", defaultValue = "true") boolean descending) {
+		List<LectureDto> lectureList = lectureService.getAllLecturesSortByPopularity(descending);
+		return ResponseEntity.ok(lectureList);
+	}
 
+	// 가격순 : price기준
+	// GET /api/lectures/sorted/price?ascending=true (DESC 내림차순 : 가격이 높은순)
+	// GET /api/lectures/sorted/price?ascending=true (ASC 오름차순 : 가격이 낮은순)
+	@GetMapping("/sorted/price")
+	public ResponseEntity<List<LectureDto>> getAllLecturesSortByPrice(
+			@RequestParam(value = "ascending", defaultValue = "true") boolean ascending) {
+		List<LectureDto> lectureList = lectureService.getAllLecturesSortByPrice(ascending);
+		return ResponseEntity.ok(lectureList);
+	}
 
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
 		if (lectureEntity == null)
@@ -77,7 +102,7 @@ public class LectureController {
 		return LectureDto.builder()
 				.lecture_id(lectureEntity.getLecture_id())
 				.author(lectureEntity.getAuthor())
-				.max_participants(lectureEntity.getMax_participants())
+				.max_participants(lectureEntity.getMaxParticipants())
 				.category(lectureEntity.getCategory())
 				.bank_name(lectureEntity.getBank_name())
 				.account_name(lectureEntity.getAccount_name())
@@ -92,64 +117,4 @@ public class LectureController {
 				.createdDate(lectureEntity.getCreatedDate())
 				.build();
 	}
-
-
-	//---------------------------------------
-	// 아래는 이전에 html파일로 확인했을 때 쓰던 코드
-	/* 게시글 목록 */
-//	@GetMapping("/")
-//	public String list(Model model) {
-//		List<LectureDto> lectureList = lectureService.getLecturelist();
-//
-//		model.addAttribute("lectureList", lectureList);
-//		return "lecture/list.html";
-//	}
-
-
-//	@GetMapping("/post")
-//	public String write() {
-//		return "lecture/write.html";
-//	}
-//
-//	@PostMapping("/post")
-//	public String write(@ModelAttribute LectureDto lectureDto) {
-//		lectureService.savePost(lectureDto);
-//
-//		return "redirect:/";
-//	}
-
-
-//	@GetMapping("/post/{no}")
-//	public String detail(@PathVariable("no") Long no, Model model) {
-//		LectureDto lectureDTO = lectureService.getPost(no);
-//
-//		model.addAttribute("lectureDto", lectureDTO);
-//		// return "lecture/detail.html";
-//		return "lecture/detail.html";
-//	}
-//
-//	@GetMapping("/post/edit/{no}")
-//	public String edit(@PathVariable("no") Long no, Model model) {
-//		LectureDto lectureDTO = lectureService.getPost(no);
-//
-//		model.addAttribute("lectureDto", lectureDTO);
-//		return "lecture/update.html";
-//	}
-
-
-//	@PutMapping("/post/edit/{no}")
-//	public String update(LectureDto lectureDTO) {
-//		lectureService.savePost(lectureDTO);
-//
-//		return "redirect:/";
-//	}
-
-//	@DeleteMapping("/post/{no}")
-//	public String delete(@PathVariable("no") Long no) {
-//		lectureService.deletePost(no);
-//
-//		return "redirect:/";
-//	}
-
-
 }

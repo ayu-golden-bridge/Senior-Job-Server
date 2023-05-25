@@ -35,7 +35,7 @@ public class LectureDto {
         LectureEntity lectureEntity = LectureEntity.builder()
                 .lecture_id(lecture_id)
                 .author(author)
-                .max_participants(max_participants)
+                .maxParticipants(max_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)

@@ -4,12 +4,10 @@ package com.seniorjob.seniorjobserver.service;
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,7 +39,7 @@ public class LectureService {
 
         // Update the existing LectureEntity with the new values from LectureDto
         existingLecture.setAuthor(lectureDto.getAuthor());
-        existingLecture.setMax_participants(lectureDto.getMax_participants());
+        existingLecture.setMaxParticipants(lectureDto.getMax_participants());
         existingLecture.setCategory(lectureDto.getCategory());
         existingLecture.setBank_name(lectureDto.getBank_name());
         existingLecture.setAccount_name(lectureDto.getAccount_name());
@@ -76,14 +74,51 @@ public class LectureService {
                 .collect(Collectors.toList());
     }
 
-   // 강좌정렬
-  
+    // 강좌정렬
+    // 최신순으로 강좌 정렬 최신 = true 오래된 = false
+    public List<LectureDto> getAllLecturesSortedByCreatedDate(boolean descending) {
+        List<LectureEntity> lectureEntities;
+        if (descending) {
+            lectureEntities = lectureRepository.findAllByOrderByCreatedDateDesc();
+        } else {
+            lectureEntities = lectureRepository.findAllByOrderByCreatedDateAsc();
+        }
+        return lectureEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    // 인기순 : max_participant가많은순 -> 강좌 참여하기를 만들때 실제참여자가 많은순으로 변경할것임
+    public List<LectureDto> getAllLecturesSortByPopularity(boolean descending){
+        List<LectureEntity> lectureEntities;
+        if(descending){
+            lectureEntities = lectureRepository.findAllByOrderByMaxParticipantsDesc();
+        }else{
+            lectureEntities = lectureRepository.findAllByOrderByMaxParticipantsAsc();
+        }
+        return lectureEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    // 가격순 : prices(낮은순 높은순)
+    public List<LectureDto> getAllLecturesSortByPrice(boolean descending){
+        List<LectureEntity> lectureEntities;
+        if(descending){
+            lectureEntities = lectureRepository.findAllByOrderByPriceDesc();
+        }else{
+            lectureEntities = lectureRepository.findAllByOrderByPriceAsc();
+        }
+        return lectureEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
     private LectureDto convertToDto(LectureEntity lectureEntity) {
         return LectureDto.builder()
                 .lecture_id(lectureEntity.getLecture_id())
                 .author(lectureEntity.getAuthor())
-                .max_participants(lectureEntity.getMax_participants())
+                .max_participants(lectureEntity.getMaxParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
@@ -138,7 +173,7 @@ public class LectureService {
         LectureDto lectureDTO = LectureDto.builder()
                 .lecture_id(lectureEntity.getLecture_id())
                 .author(lectureEntity.getAuthor())
-                .max_participants(lectureEntity.getMax_participants())
+                .max_participants(lectureEntity.getMaxParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
