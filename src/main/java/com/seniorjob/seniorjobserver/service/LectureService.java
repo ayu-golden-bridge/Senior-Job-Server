@@ -1,10 +1,8 @@
 package com.seniorjob.seniorjobserver.service;
 
-
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -134,37 +132,6 @@ public class LectureService {
                 .build();
     }
 
-
-//    public List<LectureDto> getLecturelist() {
-//        List<LectureEntity> lectureEntities = lectureRepository.findAll();
-//        List<LectureDto> lectureDtoList = new ArrayList<>();
-//
-//        for ( LectureEntity lectureEntity : lectureEntities) {
-//            LectureDto lectureDTO = LectureDto.builder()
-//                    .lecture_id(lectureEntity.getLecture_id())
-//                    .author(lectureEntity.getAuthor())
-//                    .max_participants(lectureEntity.getMax_participants())
-//                    .category(lectureEntity.getCategory())
-//                    .bank_name(lectureEntity.getBank_name())
-//                    .account_name(lectureEntity.getAccount_name())
-//                    .account_number(lectureEntity.getAccount_number())
-//                    .price(lectureEntity.getPrice())
-//                    .title(lectureEntity.getTitle())
-//                    .content(lectureEntity.getContent())
-//                    .start_date(lectureEntity.getStart_date())
-//                    .end_date(lectureEntity.getEnd_date())
-//                    .region(lectureEntity.getRegion())
-//                    .image_url(lectureEntity.getImage_url())
-//                    .created_date(lectureEntity.getCreated_date())
-//                    .build();
-//
-//            lectureDtoList.add(lectureDTO);
-//        }
-//
-//        return lectureDtoList;
-//    }
-
-
     @Transactional
     public LectureDto getPost(Long id) {
         Optional<LectureEntity> lectureEntityWrapper = lectureRepository.findById(id);
@@ -194,9 +161,4 @@ public class LectureService {
     public Long savePost(LectureDto lectureDto) {
         return lectureRepository.save(lectureDto.toEntity()).getLecture_id();
     }
-
-//    @Transactional
-//    public void deletePost(Long id) {
-//        lectureRepository.deleteById(id);
-//    }
 }

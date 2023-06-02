@@ -100,8 +100,8 @@ public class LectureController {
 			return null;
 
 		return LectureDto.builder()
-				.lecture_id(lectureEntity.getLecture_id())
-				.author(lectureEntity.getAuthor())
+				.create_id(lectureEntity.getCreate_id())
+				.creator(lectureEntity.getCreator())
 				.max_participants(lectureEntity.getMaxParticipants())
 				.category(lectureEntity.getCategory())
 				.bank_name(lectureEntity.getBank_name())
