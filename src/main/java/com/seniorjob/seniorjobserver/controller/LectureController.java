@@ -95,13 +95,15 @@ public class LectureController {
 		return ResponseEntity.ok(lectureList);
 	}
 
+
+
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
 		if (lectureEntity == null)
 			return null;
 
 		return LectureDto.builder()
-				.lecture_id(lectureEntity.getLecture_id())
-				.author(lectureEntity.getAuthor())
+				.create_id(lectureEntity.getCreate_id())
+				.creator(lectureEntity.getCreator())
 				.max_participants(lectureEntity.getMaxParticipants())
 				.category(lectureEntity.getCategory())
 				.bank_name(lectureEntity.getBank_name())
@@ -110,6 +112,8 @@ public class LectureController {
 				.price(lectureEntity.getPrice())
 				.title(lectureEntity.getTitle())
 				.content(lectureEntity.getContent())
+				.cycle(lectureEntity.getCycle())
+				.count(lectureEntity.getCount())
 				.start_date(lectureEntity.getStart_date())
 				.end_date(lectureEntity.getEnd_date())
 				.region(lectureEntity.getRegion())
