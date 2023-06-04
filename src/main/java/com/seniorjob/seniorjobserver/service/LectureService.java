@@ -59,13 +59,13 @@ public class LectureService {
         return convertToDto(updatedLecture);
     }
 
-    public void deleteLecture(Long lectureId) {
-        lectureRepository.deleteById(lectureId);
+    public void deleteLecture(Long create_id) {
+        lectureRepository.deleteById(create_id);
     }
 
-    public LectureDto getDetailLectureById(Long lecture_id) {
-        LectureEntity lectureEntity = lectureRepository.findById(lecture_id)
-                .orElseThrow(() -> new RuntimeException("강좌아이디 찾지못함 lecture_id: " + lecture_id));
+    public LectureDto getDetailLectureById(Long create_id) {
+        LectureEntity lectureEntity = lectureRepository.findById(create_id)
+                .orElseThrow(() -> new RuntimeException("강좌아이디 찾지못함 create_id: " + create_id));
         return convertToDto(lectureEntity);
     }
 

@@ -97,14 +97,6 @@ public class LectureController {
 		return ResponseEntity.ok(lectureList);
 	}
 
-	// 강좌참여API
-	// POST /api/lectures/{id}/applicants
-	@PostMapping("/{id}/applicants")
-	public ResponseEntity<Void> applyLecture(@PathVariable("id") Long id){
-
-
-		return ResponseEntity.ok().build();
-	}
 
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
 		if (lectureEntity == null)
