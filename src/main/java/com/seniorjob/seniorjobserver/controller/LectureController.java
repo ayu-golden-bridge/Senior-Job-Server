@@ -4,6 +4,10 @@ import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
 import com.seniorjob.seniorjobserver.service.LectureService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -95,7 +99,24 @@ public class LectureController {
 		return ResponseEntity.ok(lectureList);
 	}
 
+	// 페이징
+	// GET /api/lectures/paging?page={no}&size={no}
 
+	@GetMapping("/paging")
+	public ResponseEntity<Page<LectureDto>> getLecturesWithPagination(
+			@RequestParam(defaultValue = "0", name = "page") int page,
+			@RequestParam(defaultValue = "12", name = "size") int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		Page<LectureEntity> lecturePage = lectureService.getLectures(pageable);
+
+		List<LectureDto> lectureDtoList = lecturePage.getContent().stream()
+				.map(this::convertToDto)
+				.collect(Collectors.toList());
+
+		Page<LectureDto> pagedLectureDto = new PageImpl<>(lectureDtoList, pageable, lecturePage.getTotalElements());
+
+		return ResponseEntity.ok(pagedLectureDto);
+	}
 
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
 		if (lectureEntity == null)
