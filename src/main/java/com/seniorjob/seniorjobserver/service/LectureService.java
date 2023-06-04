@@ -3,6 +3,8 @@ package com.seniorjob.seniorjobserver.service;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
+import com.seniorjob.seniorjobserver.dto.MemberDto;
+import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,6 +42,7 @@ public class LectureService {
 
         existingLecture.setCreator(lectureDto.getCreator());
         existingLecture.setMaxParticipants(lectureDto.getMax_participants());
+        existingLecture.setCurrentParticipants(lectureDto.getCurrent_participants());
         existingLecture.setCategory(lectureDto.getCategory());
         existingLecture.setBank_name(lectureDto.getBank_name());
         existingLecture.setAccount_name(lectureDto.getAccount_name());
@@ -116,11 +119,23 @@ public class LectureService {
                 .collect(Collectors.toList());
     }
 
+    // 강좌참여API
+    public void applyLecture(Long lectureId, MemberDto memberDto){
+        LectureDto lecture = getDetailLectureById(lectureId);
+        if(lecture == null){
+            throw new RuntimeException("강좌를 찾을 수 없습니다. 강좌 ID: " + lectureId);
+        }
+        int updateParticipants = lecture.getCurrent_participants() + 1;
+        lecture.setCurrent_participants(updateParticipants);
+        updateLecture(lectureId, lecture);
+    }
+
     private LectureDto convertToDto(LectureEntity lectureEntity) {
         return LectureDto.builder()
                 .create_id(lectureEntity.getCreate_id())
                 .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
+                .current_participants(lectureEntity.getCurrentParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
@@ -147,6 +162,7 @@ public class LectureService {
                 .create_id(lectureEntity.getCreate_id())
                 .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
+                .current_participants(lectureEntity.getCurrentParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())

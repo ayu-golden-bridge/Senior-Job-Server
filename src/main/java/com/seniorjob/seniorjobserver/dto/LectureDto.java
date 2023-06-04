@@ -15,6 +15,7 @@ public class LectureDto {
     private Long create_id;
     private String creator;
     private Integer max_participants;
+    private Integer current_participants;
     private String category;
     private String bank_name;
     private String account_name;
@@ -38,6 +39,7 @@ public class LectureDto {
                 .create_id(create_id)
                 .creator(creator)
                 .maxParticipants(max_participants)
+                .currrentParticipants(current_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)
@@ -57,13 +59,14 @@ public class LectureDto {
     }
 
     @Builder
-    public LectureDto(Long create_id, String creator, Integer max_participants, String category,
+    public LectureDto(Long create_id, String creator, Integer max_participants, Integer current_participants, String category,
                       String bank_name, String account_name, String account_number, Integer price, String title, String content,
                       String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                       LocalDateTime createdDate) {
         this.create_id = create_id;
         this.creator = creator;
         this.max_participants = max_participants;
+        this.current_participants = current_participants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;

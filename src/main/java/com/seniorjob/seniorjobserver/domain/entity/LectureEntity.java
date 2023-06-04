@@ -2,7 +2,6 @@ package com.seniorjob.seniorjobserver.domain.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -24,6 +23,9 @@ public class LectureEntity extends TimeEntity {
 
     @Column(name = "max_participants", nullable = false)
     private Integer maxParticipants;
+
+    @Column(name = "current_participants")
+    private Integer currentParticipants;
 
     @Column(name = "category")
     private String category;
@@ -69,16 +71,15 @@ public class LectureEntity extends TimeEntity {
     private LocalDateTime createdDate;
 
 
-
-
     @Builder
-    public LectureEntity(Long create_id, String creator, Integer maxParticipants, String category,
+    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer currrentParticipants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
                          String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                          LocalDateTime createdDate) {
         this.create_id = create_id;
         this.creator = creator;
         this.maxParticipants = maxParticipants;
+        this.currentParticipants = currrentParticipants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
