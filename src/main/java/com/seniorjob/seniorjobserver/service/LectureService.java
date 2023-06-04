@@ -6,6 +6,8 @@ import com.seniorjob.seniorjobserver.dto.LectureDto;
 import com.seniorjob.seniorjobserver.dto.MemberDto;
 import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -182,5 +184,10 @@ public class LectureService {
     @Transactional
     public Long savePost(LectureDto lectureDto) {
         return lectureRepository.save(lectureDto.toEntity()).getCreate_id();
+    }
+
+    //페이징
+    public Page<LectureEntity> getLectures(Pageable pageable) {
+        return lectureRepository.findAll(pageable);
     }
 }

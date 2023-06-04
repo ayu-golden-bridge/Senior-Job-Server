@@ -6,6 +6,10 @@ import com.seniorjob.seniorjobserver.dto.LectureDto;
 import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.service.LectureService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -96,7 +100,6 @@ public class LectureController {
 		List<LectureDto> lectureList = lectureService.getAllLecturesSortByPrice(ascending);
 		return ResponseEntity.ok(lectureList);
 	}
-
 
 	private LectureDto convertToDto(LectureEntity lectureEntity) {
 		if (lectureEntity == null)
