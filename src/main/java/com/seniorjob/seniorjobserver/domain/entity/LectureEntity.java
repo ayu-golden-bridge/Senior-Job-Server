@@ -2,7 +2,6 @@ package com.seniorjob.seniorjobserver.domain.entity;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,19 +10,22 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "lecture1")
+@Table(name = "lecture")
 public class LectureEntity extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    //@Column(name = "lecture_id")
-    private Long lecture_id;
+    //@Column(name = "create_id")
+    private Long create_id;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+    @Column(name = "creator", nullable = false)
+    private String creator;
 
     @Column(name = "max_participants", nullable = false)
     private Integer maxParticipants;
+
+    @Column(name = "current_participants")
+    private Integer currentParticipants;
 
     @Column(name = "category")
     private String category;
@@ -46,6 +48,12 @@ public class LectureEntity extends TimeEntity {
     @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
+    @Column(name = "cycle")
+    private String cycle;
+
+    @Column(name = "count")
+    private Integer count;
+
     @Column(name = "start_date", columnDefinition = "datetime")
     private LocalDateTime start_date;
 
@@ -63,16 +71,15 @@ public class LectureEntity extends TimeEntity {
     private LocalDateTime createdDate;
 
 
-
-
     @Builder
-    public LectureEntity(Long lecture_id, String author, Integer maxParticipants, String category,
+    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer currrentParticipants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
-                         LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
+                         String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                          LocalDateTime createdDate) {
-        this.lecture_id = lecture_id;
-        this.author = author;
+        this.create_id = create_id;
+        this.creator = creator;
         this.maxParticipants = maxParticipants;
+        this.currentParticipants = currrentParticipants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
@@ -80,6 +87,8 @@ public class LectureEntity extends TimeEntity {
         this.price = price;
         this.title = title;
         this.content = content;
+        this.cycle = cycle;
+        this.count = count;
         this.start_date = start_date;
         this.end_date = end_date;
         this.region = region;

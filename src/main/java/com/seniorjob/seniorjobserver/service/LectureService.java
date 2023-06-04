@@ -3,6 +3,8 @@ package com.seniorjob.seniorjobserver.service;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
+import com.seniorjob.seniorjobserver.dto.MemberDto;
+import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
 import org.springframework.stereotype.Service;
 
@@ -32,13 +34,13 @@ public class LectureService {
         return convertToDto(savedLecture);
     }
 
-    public LectureDto updateLecture(Long lecture_id, LectureDto lectureDto) {
-        LectureEntity existingLecture = lectureRepository.findById(lecture_id)
-                .orElseThrow(() -> new RuntimeException("강좌아이디 찾지못함 lecture_id: " + lecture_id));
+    public LectureDto updateLecture(Long create_id, LectureDto lectureDto) {
+        LectureEntity existingLecture = lectureRepository.findById(create_id)
+                .orElseThrow(() -> new RuntimeException("강좌아이디 찾지못함 create_id: " + create_id));
 
-        // Update the existing LectureEntity with the new values from LectureDto
-        existingLecture.setAuthor(lectureDto.getAuthor());
+        existingLecture.setCreator(lectureDto.getCreator());
         existingLecture.setMaxParticipants(lectureDto.getMax_participants());
+        existingLecture.setCurrentParticipants(lectureDto.getCurrent_participants());
         existingLecture.setCategory(lectureDto.getCategory());
         existingLecture.setBank_name(lectureDto.getBank_name());
         existingLecture.setAccount_name(lectureDto.getAccount_name());
@@ -46,6 +48,8 @@ public class LectureService {
         existingLecture.setPrice(lectureDto.getPrice());
         existingLecture.setTitle(lectureDto.getTitle());
         existingLecture.setContent(lectureDto.getContent());
+        existingLecture.setCycle(lectureDto.getCycle());
+        existingLecture.setCount(lectureDto.getCount());
         existingLecture.setStart_date(lectureDto.getStart_date());
         existingLecture.setEnd_date(lectureDto.getEnd_date());
         existingLecture.setRegion(lectureDto.getRegion());
@@ -113,11 +117,23 @@ public class LectureService {
                 .collect(Collectors.toList());
     }
 
+    // 강좌참여API
+    public void applyLecture(Long lectureId, MemberDto memberDto){
+        LectureDto lecture = getDetailLectureById(lectureId);
+        if(lecture == null){
+            throw new RuntimeException("강좌를 찾을 수 없습니다. 강좌 ID: " + lectureId);
+        }
+        int updateParticipants = lecture.getCurrent_participants() + 1;
+        lecture.setCurrent_participants(updateParticipants);
+        updateLecture(lectureId, lecture);
+    }
+
     private LectureDto convertToDto(LectureEntity lectureEntity) {
         return LectureDto.builder()
-                .lecture_id(lectureEntity.getLecture_id())
-                .author(lectureEntity.getAuthor())
+                .create_id(lectureEntity.getCreate_id())
+                .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
+                .current_participants(lectureEntity.getCurrentParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
@@ -125,6 +141,8 @@ public class LectureService {
                 .price(lectureEntity.getPrice())
                 .title(lectureEntity.getTitle())
                 .content(lectureEntity.getContent())
+                .cycle(lectureEntity.getCycle())
+                .count(lectureEntity.getCount())
                 .start_date(lectureEntity.getStart_date())
                 .end_date(lectureEntity.getEnd_date())
                 .region(lectureEntity.getRegion())
@@ -139,9 +157,10 @@ public class LectureService {
         LectureEntity lectureEntity = lectureEntityWrapper.get();
 
         LectureDto lectureDTO = LectureDto.builder()
-                .lecture_id(lectureEntity.getLecture_id())
-                .author(lectureEntity.getAuthor())
+                .create_id(lectureEntity.getCreate_id())
+                .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
+                .current_participants(lectureEntity.getCurrentParticipants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
@@ -149,6 +168,8 @@ public class LectureService {
                 .price(lectureEntity.getPrice())
                 .title(lectureEntity.getTitle())
                 .content(lectureEntity.getContent())
+                .cycle(lectureEntity.getCycle())
+                .count(lectureEntity.getCount())
                 .start_date(lectureEntity.getStart_date())
                 .end_date(lectureEntity.getEnd_date())
                 .region(lectureEntity.getRegion())
@@ -160,6 +181,6 @@ public class LectureService {
     }
     @Transactional
     public Long savePost(LectureDto lectureDto) {
-        return lectureRepository.save(lectureDto.toEntity()).getLecture_id();
+        return lectureRepository.save(lectureDto.toEntity()).getCreate_id();
     }
 }

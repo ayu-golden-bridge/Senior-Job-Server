@@ -12,9 +12,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class LectureDto {
 
-    private Long lecture_id;
-    private String author;
+    private Long create_id;
+    private String creator;
     private Integer max_participants;
+    private Integer current_participants;
     private String category;
     private String bank_name;
     private String account_name;
@@ -22,6 +23,8 @@ public class LectureDto {
     private Integer price;
     private String title;
     private String content;
+    private String cycle;
+    private Integer count;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime start_date;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
@@ -33,9 +36,10 @@ public class LectureDto {
 
     public LectureEntity toEntity() {
         LectureEntity lectureEntity = LectureEntity.builder()
-                .lecture_id(lecture_id)
-                .author(author)
+                .create_id(create_id)
+                .creator(creator)
                 .maxParticipants(max_participants)
+                .currrentParticipants(current_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)
@@ -43,6 +47,8 @@ public class LectureDto {
                 .price(price)
                 .title(title)
                 .content(content)
+                .cycle(cycle)
+                .count(count)
                 .start_date(start_date)
                 .end_date(end_date)
                 .region(region)
@@ -53,13 +59,14 @@ public class LectureDto {
     }
 
     @Builder
-    public LectureDto(Long lecture_id, String author, Integer max_participants, String category,
+    public LectureDto(Long create_id, String creator, Integer max_participants, Integer current_participants, String category,
                       String bank_name, String account_name, String account_number, Integer price, String title, String content,
-                      LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
+                      String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                       LocalDateTime createdDate) {
-        this.lecture_id = lecture_id;
-        this.author = author;
+        this.create_id = create_id;
+        this.creator = creator;
         this.max_participants = max_participants;
+        this.current_participants = current_participants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
@@ -67,6 +74,8 @@ public class LectureDto {
         this.price = price;
         this.title = title;
         this.content = content;
+        this.cycle = cycle;
+        this.count = count;
         this.start_date = start_date;
         this.end_date = end_date;
         this.region = region;
