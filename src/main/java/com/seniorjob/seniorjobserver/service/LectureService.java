@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,6 +31,7 @@ public class LectureService {
 
     public LectureDto createLecture(LectureDto lectureDto) {
         LectureEntity lectureEntity = lectureDto.toEntity();
+        lectureEntity.updateStatus();
         LectureEntity savedLecture = lectureRepository.save(lectureEntity);
         return convertToDto(savedLecture);
     }
@@ -40,7 +42,7 @@ public class LectureService {
 
         existingLecture.setCreator(lectureDto.getCreator());
         existingLecture.setMaxParticipants(lectureDto.getMax_participants());
-        existingLecture.setCurrentParticipants(lectureDto.getCurrent_participants());
+        existingLecture.setCurrent_participants(lectureDto.getCurrent_participants());
         existingLecture.setCategory(lectureDto.getCategory());
         existingLecture.setBank_name(lectureDto.getBank_name());
         existingLecture.setAccount_name(lectureDto.getAccount_name());
@@ -69,13 +71,38 @@ public class LectureService {
         return convertToDto(lectureEntity);
     }
 
-    // 강좌검색
+    // 강좌검색 : 제목
+    // 강좌검색 : 제목+상태
     public List<LectureDto> searchLecturesByTitle(String title) {
         List<LectureEntity> lectureEntities = lectureRepository.findByTitleContaining(title);
         return lectureEntities.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
+
+    public List<LectureDto> searchLecturesByTitleAndStatus(String title, LectureEntity.LectureStatus status) {
+        if (title != null && status != null) {
+            List<LectureEntity> lectureEntities = lectureRepository.findByTitleContainingAndStatus(title, status);
+            return lectureEntities.stream()
+                    .map(this::convertToDto)
+                    .collect(Collectors.toList());
+        } else if (title != null) {
+            return searchLecturesByTitle(title);
+        } else if (status != null) {
+            return searchLecturesByStatus(status);
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+    // 강좌상태
+    public List<LectureDto> searchLecturesByStatus(LectureEntity.LectureStatus status) {
+        List<LectureEntity> lectureEntities = lectureRepository.findByStatus(status);
+        return lectureEntities.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
 
     // 강좌정렬
     // 최신순으로 강좌 정렬 최신 = true 오래된 = false
@@ -118,14 +145,12 @@ public class LectureService {
     }
 
     // 강좌참여API
-
-
     private LectureDto convertToDto(LectureEntity lectureEntity) {
         return LectureDto.builder()
                 .create_id(lectureEntity.getCreate_id())
                 .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
-                .current_participants(lectureEntity.getCurrentParticipants())
+                .current_participants(lectureEntity.getCurrent_participants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())
@@ -152,7 +177,7 @@ public class LectureService {
                 .create_id(lectureEntity.getCreate_id())
                 .creator(lectureEntity.getCreator())
                 .max_participants(lectureEntity.getMaxParticipants())
-                .current_participants(lectureEntity.getCurrentParticipants())
+                .current_participants(lectureEntity.getCurrent_participants())
                 .category(lectureEntity.getCategory())
                 .bank_name(lectureEntity.getBank_name())
                 .account_name(lectureEntity.getAccount_name())

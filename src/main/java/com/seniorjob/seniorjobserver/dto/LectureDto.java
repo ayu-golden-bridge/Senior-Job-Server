@@ -29,6 +29,7 @@ public class LectureDto {
     private LocalDateTime start_date;
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime end_date;
+
     private String region;
     private String image_url;
 
@@ -39,7 +40,7 @@ public class LectureDto {
                 .create_id(create_id)
                 .creator(creator)
                 .maxParticipants(max_participants)
-                .currrentParticipants(current_participants)
+                .current_participants(current_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)

@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -63,11 +62,27 @@ public class LectureController {
 		return ResponseEntity.ok(lecture);
 	}
 
-	// GET /api/lectures/search?title={title}
+	// 강좌검색API
+	// 강좌제목
+	// GET http://localhost:8080/api/lectures/search?{title}
+	// 강좌검색API
+	// 강좌제목 + 상태(모집중, 개설대기중, 마감)
+	// GET /api/lectures/search?title={title}&status={status}
 	@GetMapping("/search")
-	public ResponseEntity<List<LectureDto>> searchLecturesByTitle(@RequestParam("title") String title) {
-		List<LectureDto> lectures = lectureService.searchLecturesByTitle(title);
-		return ResponseEntity.ok(lectures);
+	public ResponseEntity<List<LectureDto>> searchLectures(
+			@RequestParam(value = "title", required = false) String title,
+			@RequestParam(value = "status", required = false) LectureEntity.LectureStatus status) {
+		List<LectureDto> lectureList;
+		if (title != null && status != null) {
+			lectureList = lectureService.searchLecturesByTitleAndStatus(title, status);
+		} else if (title != null) {
+			lectureList = lectureService.searchLecturesByTitle(title);
+		} else if (status != null) {
+			lectureList = lectureService.searchLecturesByStatus(status);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+		return ResponseEntity.ok(lectureList);
 	}
 
 	// 정렬 api
@@ -103,7 +118,6 @@ public class LectureController {
 
 	// 페이징
 	// GET /api/lectures/paging?page={no}&size={no}
-
 	@GetMapping("/paging")
 	public ResponseEntity<Page<LectureDto>> getLecturesWithPagination(
 			@RequestParam(defaultValue = "0", name = "page") int page,
