@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface LectureRepository extends JpaRepository<LectureEntity, Long> {
-    List<LectureEntity> findByTitleContaining(String title);
 
     List<LectureEntity> findAllByOrderByCreatedDateDesc();
 
@@ -23,4 +22,11 @@ public interface LectureRepository extends JpaRepository<LectureEntity, Long> {
     List<LectureEntity> findAllByOrderByPriceAsc();
 
     Page<LectureEntity> findAll(Pageable pageable);
+
+    List<LectureEntity> findByTitleContaining(String title);
+
+    List<LectureEntity> findByTitleContainingAndStatus(String title, LectureEntity.LectureStatus status);
+
+    List<LectureEntity> findByStatus(LectureEntity.LectureStatus status);
+
 }

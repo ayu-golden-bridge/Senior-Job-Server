@@ -13,6 +13,13 @@ import java.time.LocalDateTime;
 @Table(name = "lecture")
 public class LectureEntity extends TimeEntity {
 
+    public enum LectureStatus {
+        WAITING,
+        RECRUITING,
+        CLOSED,
+        NORMAL_STATUS
+    }
+
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     //@Column(name = "create_id")
@@ -25,7 +32,7 @@ public class LectureEntity extends TimeEntity {
     private Integer maxParticipants;
 
     @Column(name = "current_participants")
-    private Integer currentParticipants;
+    private Integer current_participants; // 수정된 부분
 
     @Column(name = "category")
     private String category;
@@ -60,6 +67,21 @@ public class LectureEntity extends TimeEntity {
     @Column(name = "end_date", columnDefinition = "datetime")
     private LocalDateTime end_date;
 
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private LectureStatus status;
+
+    public void updateStatus() {
+        LocalDateTime currentDate = LocalDateTime.now();
+        if (currentDate.isBefore(start_date)) {
+            status = LectureStatus.WAITING;
+        } else if (currentDate.isBefore(end_date)) {
+            status = LectureStatus.RECRUITING;
+        } else {
+            status = LectureStatus.CLOSED;
+        }
+    }
+
     @Column(name = "region")
     private String region;
 
@@ -72,14 +94,14 @@ public class LectureEntity extends TimeEntity {
 
 
     @Builder
-    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer currrentParticipants, String category,
+    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer current_participants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
                          String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                          LocalDateTime createdDate) {
         this.create_id = create_id;
         this.creator = creator;
         this.maxParticipants = maxParticipants;
-        this.currentParticipants = currrentParticipants;
+        this.current_participants = current_participants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
