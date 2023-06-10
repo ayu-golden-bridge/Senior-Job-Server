@@ -3,6 +3,7 @@ package com.seniorjob.seniorjobserver.service;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
+import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.repository.LectureRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -79,7 +80,6 @@ public class LectureService {
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
     }
-
     public List<LectureDto> searchLecturesByTitleAndStatus(String title, LectureEntity.LectureStatus status) {
         if (title != null && status != null) {
             List<LectureEntity> lectureEntities = lectureRepository.findByTitleContainingAndStatus(title, status);
@@ -118,7 +118,7 @@ public class LectureService {
                 .collect(Collectors.toList());
     }
 
-    // 인기순 : max_participant가많은순 -> 강좌 참여하기를 만들때 실제참여자가 많은순으로 변경할것임
+        // 인기순 : max_participant가많은순 -> 강좌 참여하기를 만들때 실제참여자가 많은순으로 변경할것임
     public List<LectureDto> getAllLecturesSortByPopularity(boolean descending){
         List<LectureEntity> lectureEntities;
         if(descending){

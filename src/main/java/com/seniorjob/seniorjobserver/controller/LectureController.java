@@ -1,18 +1,13 @@
 package com.seniorjob.seniorjobserver.controller;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
-import com.seniorjob.seniorjobserver.domain.entity.UserEntity;
 import com.seniorjob.seniorjobserver.dto.LectureDto;
-import com.seniorjob.seniorjobserver.dto.UserDto;
 import com.seniorjob.seniorjobserver.service.LectureService;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -84,6 +79,7 @@ public class LectureController {
 		}
 		return ResponseEntity.ok(lectureList);
 	}
+
 
 	// 정렬 api
 	// 최신글정렬 = true, 오래된글정렬 = false

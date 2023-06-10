@@ -5,8 +5,11 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
@@ -22,7 +25,6 @@ public class LectureEntity extends TimeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    //@Column(name = "create_id")
     private Long create_id;
 
     @Column(name = "creator", nullable = false)
