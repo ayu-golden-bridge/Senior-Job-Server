@@ -14,7 +14,6 @@ public class LectureApplyController {
 
     private final LectureApplyService lectureApplyService;
 
-    @Autowired
     public LectureApplyController(LectureApplyService lectureApplyService) {
         this.lectureApplyService = lectureApplyService;
     }
