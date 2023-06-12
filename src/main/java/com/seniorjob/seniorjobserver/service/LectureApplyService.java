@@ -43,7 +43,7 @@ public class LectureApplyService {
                 .user(user)
                 .createdDate(LocalDateTime.now())
                 .build();
-
+        lecture.increaseCurrentParticipants();
         lectureApplyRepository.save(lectureApply);
     }
 
@@ -57,6 +57,7 @@ public class LectureApplyService {
         LectureApplyEntity lectureApply = (LectureApplyEntity) lectureApplyRepository.findByUserAndLecture(user, lecture)
                 .orElseThrow(() -> new RuntimeException("신청된 강좌를 찾을 수 없습니다. userId: " + userId + ", lectureId: " + lectureId));
 
+        lecture.decreaseCurrentParticipants();
         lectureApplyRepository.delete(lectureApply);
 
         return "강좌 신청이 취소되었습니다.";

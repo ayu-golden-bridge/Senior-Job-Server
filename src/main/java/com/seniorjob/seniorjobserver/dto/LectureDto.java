@@ -1,6 +1,7 @@
 package com.seniorjob.seniorjobserver.dto;
 
 import com.seniorjob.seniorjobserver.domain.entity.LectureEntity;
+import com.seniorjob.seniorjobserver.domain.entity.LectureEntity.LectureStatus;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -35,12 +36,22 @@ public class LectureDto {
 
     private LocalDateTime createdDate;
 
+    private LectureEntity.LectureStatus status;
+
+    public LectureEntity.LectureStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(LectureEntity.LectureStatus status) {
+        this.status = status;
+    }
+
     public LectureEntity toEntity() {
         LectureEntity lectureEntity = LectureEntity.builder()
                 .create_id(create_id)
                 .creator(creator)
                 .maxParticipants(max_participants)
-                .current_participants(current_participants)
+                .currentParticipants(current_participants)
                 .category(category)
                 .bank_name(bank_name)
                 .account_name(account_name)
@@ -82,5 +93,28 @@ public class LectureDto {
         this.region = region;
         this.image_url = image_url;
         this.createdDate = createdDate;
+    }
+
+    private LectureDto convertToDto(LectureEntity lectureEntity) {
+        return LectureDto.builder()
+                .create_id(lectureEntity.getCreate_id())
+                .creator(lectureEntity.getCreator())
+                .max_participants(lectureEntity.getMaxParticipants())
+                .current_participants(lectureEntity.getCurrentParticipants())
+                .category(lectureEntity.getCategory())
+                .bank_name(lectureEntity.getBank_name())
+                .account_name(lectureEntity.getAccount_name())
+                .account_number(lectureEntity.getAccount_number())
+                .price(lectureEntity.getPrice())
+                .title(lectureEntity.getTitle())
+                .content(lectureEntity.getContent())
+                .cycle(lectureEntity.getCycle())
+                .count(lectureEntity.getCount())
+                .start_date(lectureEntity.getStart_date())
+                .end_date(lectureEntity.getEnd_date())
+                .region(lectureEntity.getRegion())
+                .image_url(lectureEntity.getImage_url())
+                .createdDate(lectureEntity.getCreatedDate())
+                .build();
     }
 }

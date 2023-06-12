@@ -26,6 +26,10 @@ public class LectureController {
 	@GetMapping
 	public ResponseEntity<List<LectureDto>> getAllLectures() {
 		List<LectureDto> lectureList = lectureService.getAllLectures();
+		for (LectureDto lectureDto : lectureList) {
+			LectureEntity.LectureStatus status = lectureService.getLectureStatus(lectureDto.getCreate_id());
+			lectureDto.setStatus(status);
+		}
 		return ResponseEntity.ok(lectureList);
 	}
 
@@ -54,19 +58,35 @@ public class LectureController {
 	@GetMapping("/{id}")
 	public ResponseEntity<LectureDto> getDetailLectureById(@PathVariable("id") Long id) {
 		LectureDto lecture = lectureService.getDetailLectureById(id);
-		return ResponseEntity.ok(lecture);
+		if (lecture != null) {
+			LectureEntity.LectureStatus status = lectureService.getLectureStatus(id);
+			lecture.setStatus(status);
+			return ResponseEntity.ok(lecture);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
-	// 강좌검색API
+	// 강좌필터링검색API
 	// 강좌제목
-	// GET http://localhost:8080/api/lectures/search?{title}
-	// 강좌검색API
+	// GET http://localhost:8080/api/lectures/search={title}
 	// 강좌제목 + 상태(모집중, 개설대기중, 마감)
 	// GET /api/lectures/search?title={title}&status={status}
+	// 강좌제목 + 상태(모집중, 개설대기중, 마감) + 최신순(false)/오래된순(true)
+	// GET api/lectures/search?title={title}&status={WAITING/RECRUITING/CLOSED}&descending={true/false}
+	// 강좌제목 + 상태(모집중, 개설대기중, 마감) + 최신순(false)/오래된순(true) + 인기순(false)/참여자적은순(true)
+	// GET /api/lectures/search?title={강좌제목}&status={상태}&descending={최신순/오래된순}&sortByPopularity={인기순/참여자적은순}
+	// 강좌제목 + 상태(모집중, 개설대기중, 마감) + 최신순(false)/오래된순(true) + 인기순(false)/참여자적은순(true) + 가격높은순(false)/낮은순(true)
+	// GET /api/lectures/search?title={강좌제목}&status={상태}&descending={최신순/오래된순}&sortByPopularity={인기순/참여자적은순}&sortLecturesByPrice{가격순}
 	@GetMapping("/search")
 	public ResponseEntity<List<LectureDto>> searchLectures(
 			@RequestParam(value = "title", required = false) String title,
-			@RequestParam(value = "status", required = false) LectureEntity.LectureStatus status) {
+			@RequestParam(value = "status", required = false) LectureEntity.LectureStatus status,
+			@RequestParam(value = "sortByPopularity", defaultValue = "false") boolean sortByPopularity,
+			@RequestParam(value = "descending", defaultValue = "false") boolean descending,
+			@RequestParam(value = "sortByPrice", defaultValue = "false") boolean sortByPrice,
+			@RequestParam(value = "priceDescending", defaultValue = "false") boolean priceDescending) {
+
 		List<LectureDto> lectureList;
 		if (title != null && status != null) {
 			lectureList = lectureService.searchLecturesByTitleAndStatus(title, status);
@@ -77,38 +97,20 @@ public class LectureController {
 		} else {
 			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.ok(lectureList);
-	}
 
+		for (LectureDto lectureDto : lectureList) {
+			LectureEntity.LectureStatus lectureStatus = lectureService.getLectureStatus(lectureDto.getCreate_id());
+			lectureDto.setStatus(lectureStatus);
+		}
 
-	// 정렬 api
-	// 최신글정렬 = true, 오래된글정렬 = false
-	// GET /api/lectures/sorted/created-date?descending=true (DESC 내림차순 : 최신순)
-	// GET /api/lectures/sorted/created-date?descending=true (ASC 오름차순 : 오래된적은순)
-	@GetMapping("/sorted/created-date")
-	public ResponseEntity<List<LectureDto>> getAllLecturesSortedByCreatedDate(
-			@RequestParam(value = "descending", defaultValue = "true") boolean descending) {
-		List<LectureDto> lectureList = lectureService.getAllLecturesSortedByCreatedDate(descending);
-		return ResponseEntity.ok(lectureList);
-	}
+		if (sortByPopularity) {
+			lectureList = lectureService.sortLecturesByPopularity(lectureList, descending);
+		} else if (sortByPrice) {
+			lectureList = lectureService.sortLecturesByPrice(lectureList, priceDescending);
+		} else {
+			lectureList = lectureService.sortLecturesByCreatedDate(lectureList, descending);
+		}
 
-	// 인기순 : max_participant가많은순 -> 강좌 참여하기를 만들때 실제참여자가 많은순으로 변경할것임
-	// GET /api/lectures/sorted/popularity?descending=true (DESC 내림차순 : 참여제한이 많은순)
-	// GET /api/lectures/sorted/popularity?descending=false (ASC 오름차순 : 참여제한이 적은순)
-	@GetMapping("/sorted/popularity")
-	public ResponseEntity<List<LectureDto>> getAllLecturesSortByPopularity(
-			@RequestParam(value = "descending", defaultValue = "true") boolean descending) {
-		List<LectureDto> lectureList = lectureService.getAllLecturesSortByPopularity(descending);
-		return ResponseEntity.ok(lectureList);
-	}
-
-	// 가격순 : price기준
-	// GET /api/lectures/sorted/price?ascending=true (DESC 내림차순 : 가격이 높은순)
-	// GET /api/lectures/sorted/price?ascending=true (ASC 오름차순 : 가격이 낮은순)
-	@GetMapping("/sorted/price")
-	public ResponseEntity<List<LectureDto>> getAllLecturesSortByPrice(
-			@RequestParam(value = "ascending", defaultValue = "true") boolean ascending) {
-		List<LectureDto> lectureList = lectureService.getAllLecturesSortByPrice(ascending);
 		return ResponseEntity.ok(lectureList);
 	}
 

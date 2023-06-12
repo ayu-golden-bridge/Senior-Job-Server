@@ -5,8 +5,6 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -21,6 +19,7 @@ public class LectureEntity extends TimeEntity {
         RECRUITING,
         CLOSED,
         NORMAL_STATUS
+        // 신청가능상태, 개설대기상태, 진행상태, 철회상태,
     }
 
     @Id
@@ -34,7 +33,7 @@ public class LectureEntity extends TimeEntity {
     private Integer maxParticipants;
 
     @Column(name = "current_participants")
-    private Integer current_participants; // 수정된 부분
+    private Integer currentParticipants;
 
     @Column(name = "category")
     private String category;
@@ -96,14 +95,14 @@ public class LectureEntity extends TimeEntity {
 
 
     @Builder
-    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer current_participants, String category,
+    public LectureEntity(Long create_id, String creator, Integer maxParticipants, Integer currentParticipants, String category,
                          String bank_name, String account_name, String account_number, Integer price, String title, String content,
                          String cycle, Integer count, LocalDateTime start_date, LocalDateTime end_date, String region, String image_url,
                          LocalDateTime createdDate) {
         this.create_id = create_id;
         this.creator = creator;
         this.maxParticipants = maxParticipants;
-        this.current_participants = current_participants;
+        this.currentParticipants = currentParticipants;
         this.category = category;
         this.bank_name = bank_name;
         this.account_name = account_name;
@@ -119,4 +118,18 @@ public class LectureEntity extends TimeEntity {
         this.image_url = image_url;
         this.createdDate = createdDate;
     }
+
+    public void increaseCurrentParticipants() {
+        if (currentParticipants == null) {
+            currentParticipants = 0;
+        }
+        currentParticipants++;
+    }
+    public void decreaseCurrentParticipants() {
+        if (currentParticipants != null && currentParticipants > 0) {
+            currentParticipants--;
+        }
+    }
+
+
 }
