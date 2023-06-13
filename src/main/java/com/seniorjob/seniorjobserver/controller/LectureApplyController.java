@@ -1,12 +1,9 @@
 package com.seniorjob.seniorjobserver.controller;
 
 import com.seniorjob.seniorjobserver.service.LectureApplyService;
-import com.seniorjob.seniorjobserver.service.LectureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/")
