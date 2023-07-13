@@ -1,0 +1,20 @@
+cloud:
+  aws:
+    credentials:
+      access-key: AKIA5IJKUE7SBQ2GLD6N
+      secret-key: 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
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+application:
+  bucket:
+    name: goldenbridge-bucket
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 5MB
+

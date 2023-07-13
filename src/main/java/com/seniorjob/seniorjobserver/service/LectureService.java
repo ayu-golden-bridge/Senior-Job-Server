@@ -108,6 +108,7 @@ public class LectureService {
 
     // 강좌정렬
     // 최신순으로 강좌 정렬 최신 = true 오래된 = false
+
     public List<LectureDto> sortLecturesByCreatedDate(List<LectureDto> lectureList, boolean descending) {
         lectureList.sort((a, b) -> descending ?
                 b.getCreatedDate().compareTo(a.getCreatedDate()) :
