@@ -123,7 +123,7 @@ public class LectureService {
                 b.getCurrent_participants() - a.getCurrent_participants() :
                 a.getCurrent_participants() - b.getCurrent_participants());
         return lectureList;
-    }
+    }//
 
     // 가격순 : prices(낮은순 높은순)
     public List<LectureDto> sortLecturesByPrice(List<LectureDto> lectureList, boolean descending) {

@@ -86,7 +86,7 @@ public class LectureController {
 		List<LectureDto> lectureList = lectureService.getAllLectures();
 		lectureList = lectureService.sortLecturesByPrice(lectureList, descending);
 		return ResponseEntity.ok(lectureList);
-	}
+	}//
 
 	// 강좌정렬수정API - 인기순
 	// GET /api/lectures/sort/popularity?descending=true
