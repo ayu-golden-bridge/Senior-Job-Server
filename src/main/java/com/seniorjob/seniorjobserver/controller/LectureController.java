@@ -69,8 +69,8 @@ public class LectureController {
 
 	// GET /api/lectures/sort/latest?descending=true
 	// GET /api/lectures/sort/latest?descending=false
-	@GetMapping("/sort/latest")
-	public ResponseEntity<List<LectureDto>> sortByLatest(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
+	@GetMapping("/sort/createdDate")
+	public ResponseEntity<List<LectureDto>> sortLecturesByCreatedDate(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
 		List<LectureDto> lectureList = lectureService.getAllLectures();
 		lectureList = lectureService.sortLecturesByCreatedDate(lectureList, descending);
 		return ResponseEntity.ok(lectureList);
@@ -79,7 +79,7 @@ public class LectureController {
 	// GET /api/lectures/sort/price?descending=true
 	// GET /api/lectures/sort/price?descending=false
 	@GetMapping("/sort/price")
-	public ResponseEntity<List<LectureDto>> sortByPrice(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
+	public ResponseEntity<List<LectureDto>> sortLecturesByPrice(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
 		List<LectureDto> lectureList = lectureService.getAllLectures();
 		lectureList = lectureService.sortLecturesByPrice(lectureList, descending);
 		return ResponseEntity.ok(lectureList);
@@ -88,7 +88,7 @@ public class LectureController {
 	// GET /api/lectures/sort/popularity?descending=true
 	// GET /api/lectures/sort/popularity?descending=false
 	@GetMapping("/sort/popularity")
-	public ResponseEntity<List<LectureDto>> sortByPopularity(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
+	public ResponseEntity<List<LectureDto>> sortLecturesByPopularity(@RequestParam(value = "descending", defaultValue = "false") boolean descending) {
 		List<LectureDto> lectureList = lectureService.getAllLectures();
 		lectureList = lectureService.sortLecturesByPopularity(lectureList, descending);
 		return ResponseEntity.ok(lectureList);
